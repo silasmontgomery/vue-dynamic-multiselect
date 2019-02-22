@@ -11,5 +11,16 @@ npm install vue-dynamic-multiselect --save
 ### Import
 ```javascript
 import DynamicMultiSelect from 'vue-dynamic-multiselect'
+
 Vue.use(DynamicMultiSelect)
+```
+
+### Usage
+```javascript
+<dynamic-multi-select 
+    :options="objectArray"
+    option-value="id"
+    option-text="name"
+    placeholder="type to search"
+    v-model="selectedObjects" />
 ```

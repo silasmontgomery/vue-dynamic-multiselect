@@ -34,3 +34,17 @@ Vue.use(DynamicMultiSelect)
     placeholder="type to search"
     v-model="selectedObjects" />
 ```
+
+### Properties
+| Name         | Type   | Default | Description                         |
+| ------------ | ------ | ------- | ------------------------------------------------------------------- |
+| options      | Array  | []      | Array of objects that will create the select list options           |
+| option-value | String | id      | The object property used for the value of the select options        |
+| option-text  | String | name    | The object property used for the display text of the select options |
+| v-model      | Array  | []      | Array used for fetching / storing the selected objects              |
+| placeholder  | String | search  | String containing the text to be used as a placeholder              |
+
+### Events
+| Name   | Description                                                                 |
+| ------ | --------------------------------------------------------------------------- |
+| search | Triggered whenever search text changes. Value is the current search string. |

@@ -9,7 +9,7 @@ npm install vue-dynamic-multiselect --save
 ```
 
 ### Import
-'''javascript
+```javascript
 import DynamicMultiSelect from 'vue-dynamic-multiselect'
 Vue.use(DynamicMultiSelect)
 ```

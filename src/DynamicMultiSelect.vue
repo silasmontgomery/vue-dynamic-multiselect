@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="vue-dynamic-select" @focusin="hasFocus=true" @focusout="hasFocus=false" @click="$refs.search.focus()">
-            <div v-if="showPlaceholder" class="placeholder" v-text="placeholder" />
+        <div tabindex="0" @click="$refs.search.focus()" @focusin="hasFocus=true" class="vue-dynamic-select">
+            <div v-if="showPlaceholder" class="placeholder" v-text="placeholder"></div>
             <div class="selected-option" v-for="option in selectedOptions" :key="option[optionValue]" v-text="option[optionText]" @click.prevent.stop="removeOption(option)" />
             <input autocomplete="off" class="search" ref="search" v-model="search" @keyup="moveToResults" @keydown="removeLastOption" />
             <i class="dropdown" />
             <div v-if="showResultList" ref="resultList" class="result-list">
-                <div tabindex=0 ref="result" class="result" v-for="result in results" :key="result[optionValue]" v-html="highlight(result[optionText])" @click="addOption(result)" @keyup="navigateResults(result, $event)" />
+                <div tabindex=0 ref="result" class="result" v-for="result in results" :key="result[optionValue]" v-html="highlight(result[optionText])" @click="addOption(result)" @keyup.prevent="navigateResults(result, $event)" />
             </div>
         </div>
     </div>
@@ -48,7 +48,6 @@
         data: function() {
             return {
                 hasFocus: false,
-                typing: false,
                 search: null,
                 selectedOptions: [],
                 selectedResult: 0
@@ -63,6 +62,11 @@
                     this.selectedOptions.push(option);
                 }
             })
+            // Add onclick method to body to hide result list when component loses focus
+            window.addEventListener("click", this.loseFocus)
+        },
+        destroyed() {
+            window.removeEventListener("click", this.loseFocus)
         },
         computed: {
             results: function() {
@@ -77,10 +81,16 @@
             }
         },
         watch: {
-            hasFocus: function() {
+            hasFocus: function(hasFocus) {
                 // Clear the search box when component loses focus
-                if(!this.hasFocus) {
+                window.removeEventListener("keydown", this.stopScroll);
+                if(hasFocus) {
+                    window.addEventListener("keydown", this.stopScroll);
+                    this.$refs.search.focus();
+                } else {
                     this.search = null;
+                    this.selectedResult = 0;
+                    this.$refs.search.blur();
                 }
             },
             selectedOptions: function() {
@@ -149,6 +159,16 @@
                 }
 
                 return value;
+            },
+            stopScroll: function(event) {
+                if(event.keyCode === 40 || event.keyCode === 38) {
+                    event.preventDefault();
+                }
+            },
+            loseFocus: function(event) {
+                if(!event.target.classList.contains('vue-dynamic-select') && (event.target.parentElement && !event.target.parentElement.classList.contains('vue-dynamic-select'))) {
+                    this.hasFocus = false;
+                }
             }
         }
     }

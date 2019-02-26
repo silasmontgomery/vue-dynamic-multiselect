@@ -3,6 +3,8 @@ A VueJS plugin that provides a searchable and reactive multiselect list componen
 
 ![alt text](https://raw.githubusercontent.com/silasmontgomery/vue-dynamic-multiselect/master/src/images/dynamic-multiselect.png "vue-dynamic-multiselect screenshot")
 
+[View Online Demos](http://demos.reticent.net/vue-dynamic-multiselect)
+
 ### Installation
 ```
 npm install vue-dynamic-multiselect --save

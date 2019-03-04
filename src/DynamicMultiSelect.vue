@@ -71,7 +71,9 @@
         computed: {
             results: function() {
                 // Filter options on search text (if not empty, case insensitive) and when item isn't already selected (else return all options not selected)
-                return this.search ? this.options.filter(o => ( o[this.optionText].toLowerCase().indexOf(this.search.toLowerCase()) > -1 && !this.selectedOptions.find(s => s[this.optionValue]==o[this.optionValue])) ) : this.options.filter(o => !this.selectedOptions.find(s => s[this.optionValue] == o[this.optionValue]));
+                return this.search ? this.options.filter(o => {
+                    return String(o[this.optionText]).toLowerCase().indexOf(this.search.toLowerCase()) > -1 && !this.selectedOptions.find(s => s[this.optionValue]==o[this.optionValue]);
+                }) : this.options.filter(o => !this.selectedOptions.find(s => s[this.optionValue] == o[this.optionValue]));
             },
             showResultList: function() {
                 return this.hasFocus && this.results.length > 0;
@@ -151,10 +153,10 @@
             highlight: function(value) {
                 // Highlights the part of each result that matches the search text
                 if(this.search) {
-                    let matchPos = value.toLowerCase().indexOf(this.search.toLowerCase());
+                    let matchPos = String(value).toLowerCase().indexOf(this.search.toLowerCase());
                     if(matchPos > -1) {
-                        let matchStr = value.substr(matchPos, this.search.length);
-                        value = value.replace(matchStr, '<span style="font-weight: bold; background-color: #efefef;">'+matchStr+'</span>');
+                        let matchStr = String(value).substr(matchPos, this.search.length);
+                        value = String(value).replace(matchStr, '<span style="font-weight: bold; background-color: #efefef;">'+matchStr+'</span>');
                     }
                 }
 

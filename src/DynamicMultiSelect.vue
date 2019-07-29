@@ -49,19 +49,11 @@
             return {
                 hasFocus: false,
                 search: null,
-                selectedOptions: [],
+                selectedOptions: this.value,
                 selectedResult: 0
             };
         },
         mounted() {
-            // Load selected options from prop into the selected options array
-            this.value.forEach(option => {
-                if(this.options.find(o => o.id == option.id)) {
-                    this.selectedOptions.push(this.options.find(o => o.id == option.id));
-                } else {
-                    this.selectedOptions.push(option);
-                }
-            })
             // Add onclick method to body to hide result list when component loses focus
             window.addEventListener("click", this.loseFocus)
         },
